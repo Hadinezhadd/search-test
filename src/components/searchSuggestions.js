@@ -68,10 +68,9 @@ class Suggestions extends React.Component {
           [styles.suggestionFocused]: isFocused,
         })}
         index={index}
-        key={suggestion}
+        key={index}
         onClick={props.onSelection}
         onMouseMove={this.handleMouseMove}
-        ref={isFocused && this.setFocusedSuggestion}
         searchTerm={props.searchTerm}
         suggestion={suggestion}
         suggestionRenderer={props.suggestionRenderer}

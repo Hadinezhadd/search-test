@@ -28,16 +28,16 @@ class Suggestions extends React.Component {
 
   scrollToSuggestion() {
     const { focusedSuggestion, list } = this;
-    const listRect = list.getBoundingClientRect();
-    const suggestionRect = focusedSuggestion.getBoundingClientRect();
+    const listRect = list?.getBoundingClientRect();
+    const suggestionRect = focusedSuggestion?.getBoundingClientRect();
 
-    if (suggestionRect.bottom > listRect.bottom) {
+    if (suggestionRect?.bottom > listRect?.bottom) {
       list.scrollTop =
-        focusedSuggestion.offsetTop +
-        focusedSuggestion.clientHeight -
+        focusedSuggestion?.offsetTop +
+        focusedSuggestion?.clientHeight -
         list.clientHeight;
-    } else if (suggestionRect.top < listRect.top) {
-      list.scrollTop = focusedSuggestion.offsetTop;
+    } else if (suggestionRect?.top < listRect?.top) {
+      list.scrollTop = focusedSuggestion?.offsetTop;
     }
   }
 

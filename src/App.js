@@ -1,17 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import autoBind from "react-autobind";
-
+import axios from "axios";
 import SearchBar from "./components/searchBar";
-
-import words from "./components/words.json";
 import styles from "./components/search.module.css";
+import Button from "./components/deleteButton";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      query: "",
       suggestions: [],
       history: [],
     };
@@ -25,10 +25,35 @@ class App extends React.Component {
     });
   }
 
+  getInfo = () => {
+    axios
+      .get(
+        `https://api.github.com/search/repositories?q=${this.state.query}&language=javascript`
+      )
+      .then((res) => {
+        if (res.data.items != undefined) {
+          let result = res.data.items.map((a) => a.name);
+          this.setState({
+            suggestions: result,
+          });
+        }
+      });
+  };
+
   handleChange(input) {
-    this.setState({
-      suggestions: words.filter((word) => word.startsWith(input)),
-    });
+    this.setState(
+      {
+        query: input,
+      },
+      () => {
+        if (this.state.query && this.state.query.length > 1) {
+          if (this.state.query.length % 2 === 0) {
+            this.getInfo();
+          }
+        } else if (!this.state.query) {
+        }
+      }
+    );
   }
 
   deleteSelectedHistory(item) {
@@ -46,8 +71,12 @@ class App extends React.Component {
   handleSelection(value) {
     if (value) {
       console.info(`Selected "${value}"`);
+
       this.setState({
-        history: [...this.state.history, value],
+        history: [
+          ...this.state.history,
+          { value, date: new Date().toLocaleString() },
+        ],
       });
     }
   }
@@ -62,7 +91,7 @@ class App extends React.Component {
     return (
       <span>
         <span>{searchTerm}</span>
-        <strong>{suggestion.substr(searchTerm.length)}</strong>
+        <strong>{suggestion.substr(searchTerm?.length)}</strong>
       </span>
     );
   }
@@ -73,8 +102,8 @@ class App extends React.Component {
         <SearchBar
           autoFocus
           shouldRenderClearButton
-          // shouldRenderSearchButton
-          placeholder="select an SAT word"
+          shouldRenderSearchButton
+          placeholder="search..."
           onChange={this.handleChange}
           onClear={this.handleClear}
           onSelection={this.handleSelection}
@@ -84,16 +113,34 @@ class App extends React.Component {
           styles={styles}
         />
         <div>
-          <div>Search history</div>
-          <div onClick={() => this.deleteHistory()}>Clear search history</div>
-          {this.state.history.map((item, index) => {
-            return (
-              <div>
-                {item}{" "}
-                <span onClick={() => this.deleteSelectedHistory(item)}>X</span>
-              </div>
-            );
-          })}
+          <div className={styles.historyTitle}>
+            <div className={styles.searchTitle}>Search history</div>
+            <div
+              className={styles.clearTitle}
+              onClick={() => this.deleteHistory()}
+            >
+              Clear search history
+            </div>
+          </div>
+          <ul className={styles.historyItems}>
+            {this.state.history.map((item, index) => {
+              return (
+                <li key={index}>
+                  <div className={styles.title}>{item.value}</div>
+                  <div className={styles.dateWrapper}>
+                    <span className={styles.date}>{item.date}</span>
+                    <span onClick={() => this.deleteSelectedHistory(item)}>
+                      ✖
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className={styles.buttonWrapper}>
+          <p>designed button for test</p>
+          <Button />
         </div>
       </div>
     );

@@ -224,7 +224,7 @@ class SearchBar extends React.Component {
       state.value && props.shouldRenderClearButton;
     const shouldRenderSuggestions = state.value && props.suggestions.length > 0;
     return (
-      <div className={styles.wrapper} ref={(ref) => (this.container = ref)}>
+      <form className={styles.wrapper} ref={(ref) => (this.container = ref)}>
         <div
           className={classNames({
             [styles.field]: true,
@@ -248,7 +248,7 @@ class SearchBar extends React.Component {
         </div>
         {shouldRenderSuggestions &&
           this.renderSuggestions(state.searchTerm, styles)}
-      </div>
+      </form>
     );
   }
 }

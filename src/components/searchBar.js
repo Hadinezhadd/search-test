@@ -195,11 +195,23 @@ class SearchBar extends React.Component {
   }
 
   renderClearButton() {
-    return <button className={styles.clearButton} onClick={this.clearInput} />;
+    return (
+      <button
+        className={styles.clearButton}
+        onClick={this.clearInput}
+        type="reset"
+      />
+    );
   }
 
   renderSearchButton() {
-    return <button className={styles.submitButton} onClick={this.search} />;
+    return (
+      <button
+        className={styles.submitButton}
+        onClick={this.search}
+        type="submit"
+      />
+    );
   }
 
   renderSuggestions(searchTerm, styles) {

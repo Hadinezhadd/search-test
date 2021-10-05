@@ -59,9 +59,9 @@ class SearchBar extends React.Component {
   getNextIndex(current, last, isScrollingDown) {
     let next = null;
 
-    if (isScrollingDown && current != last) {
+    if (isScrollingDown && current !== last) {
       next = isNil(current) ? 0 : current + 1;
-    } else if (!isScrollingDown && current != 0) {
+    } else if (!isScrollingDown && current !== 0) {
       next = isNil(current) ? last : current - 1;
     }
 
@@ -200,17 +200,22 @@ class SearchBar extends React.Component {
         className={styles.clearButton}
         onClick={this.clearInput}
         type="reset"
-      />
+      >
+        <span className={styles.visuallyHidden}>Clear Search</span>
+      </button>
     );
   }
 
+  // it doesn't do anything at this time it just for showing how should define 'search submit button' for accessibility
   renderSearchButton() {
     return (
       <button
         className={styles.submitButton}
         onClick={this.search}
         type="submit"
-      />
+      >
+        <span className={styles.visuallyHidden}>Submit Search</span>
+      </button>
     );
   }
 
@@ -236,7 +241,14 @@ class SearchBar extends React.Component {
       state.value && props.shouldRenderClearButton;
     const shouldRenderSuggestions = state.value && props.suggestions.length > 0;
     return (
-      <form className={styles.wrapper} ref={(ref) => (this.container = ref)}>
+      <form
+        role="search"
+        className={styles.wrapper}
+        ref={(ref) => (this.container = ref)}
+      >
+        <label for="header-search">
+          <span className={styles.visuallyHidden}>Search</span>
+        </label>
         <div
           className={classNames({
             [styles.field]: true,
@@ -247,6 +259,7 @@ class SearchBar extends React.Component {
           <input
             {...this.attributes}
             className={styles.input}
+            id="header-search"
             type="text"
             ref={(ref) => (this.input = ref)}
             value={state.value}

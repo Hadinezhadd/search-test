@@ -4,6 +4,7 @@ import autoBind from "react-autobind";
 import axios from "axios";
 import SearchBar from "./components/searchBar";
 import styles from "./components/search.module.css";
+import { debounce } from "lodash";
 import Button from "./components/deleteButton";
 
 class App extends React.Component {
@@ -31,7 +32,7 @@ class App extends React.Component {
         `https://api.github.com/search/repositories?q=${this.state.query}&language=javascript`
       )
       .then((res) => {
-        if (res.data.items != undefined) {
+        if (res.data.items !== undefined) {
           let result = res.data.items.map((a) => a.name);
           this.setState({
             suggestions: result,
@@ -40,18 +41,14 @@ class App extends React.Component {
       });
   };
 
+  debouncedSearch = debounce(() => this.getInfo(), 800);
   handleChange(input) {
     this.setState(
       {
         query: input,
       },
       () => {
-        if (this.state.query && this.state.query.length > 1) {
-          if (this.state.query.length % 2 === 0) {
-            this.getInfo();
-          }
-        } else if (!this.state.query) {
-        }
+        this.debouncedSearch();
       }
     );
   }
@@ -98,7 +95,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <main role="main">
         <SearchBar
           autoFocus
           shouldRenderClearButton
@@ -112,37 +109,47 @@ class App extends React.Component {
           suggestionRenderer={this.suggestionRenderer}
           styles={styles}
         />
-        <div>
+        <section>
           <div className={styles.historyTitle}>
-            <div className={styles.searchTitle}>Search history</div>
-            <div
+            <h1 className={styles.searchTitle}>Search history</h1>
+            <button
               className={styles.clearTitle}
               onClick={() => this.deleteHistory()}
+              type="reset"
             >
               Clear search history
-            </div>
+            </button>
           </div>
           <ul className={styles.historyItems}>
             {this.state.history.map((item, index) => {
               return (
                 <li key={index}>
-                  <div className={styles.title}>{item.value}</div>
+                  <h2 className={styles.title}>{item.value}</h2>
                   <div className={styles.dateWrapper}>
-                    <span className={styles.date}>{item.date}</span>
-                    <span onClick={() => this.deleteSelectedHistory(item)}>
+                    <time datetime={item.date} className={styles.date}>
+                      {item.date}
+                    </time>
+                    <button
+                      type="reset"
+                      onClick={() => this.deleteSelectedHistory(item)}
+                      className={styles.itemClearButton}
+                    >
                       ✖
-                    </span>
+                      <span className={styles.visuallyHidden}>
+                        Clear Search item
+                      </span>
+                    </button>
                   </div>
                 </li>
               );
             })}
           </ul>
-        </div>
+        </section>
         <div className={styles.buttonWrapper}>
           <p>designed button for test</p>
           <Button />
         </div>
-      </div>
+      </main>
     );
   }
 }

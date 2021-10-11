@@ -4,7 +4,6 @@ import autoBind from "react-autobind";
 import axios from "axios";
 import SearchBar from "./components/searchBar";
 import styles from "./components/search.module.css";
-import { debounce } from "lodash";
 import Button from "./components/deleteButton";
 
 class App extends React.Component {
@@ -41,14 +40,13 @@ class App extends React.Component {
       });
   };
 
-  debouncedSearch = debounce(() => this.getInfo(), 800);
   handleChange(input) {
     this.setState(
       {
         query: input,
       },
       () => {
-        this.debouncedSearch();
+        this.getInfo();
       }
     );
   }
@@ -59,7 +57,7 @@ class App extends React.Component {
     }));
   }
 
-  deleteHistory(item) {
+  deleteHistory() {
     this.setState({
       history: [],
     });
@@ -107,7 +105,7 @@ class App extends React.Component {
           onSearch={this.handleSearch}
           suggestions={this.state.suggestions}
           suggestionRenderer={this.suggestionRenderer}
-          styles={styles}
+          delay={500}
         />
         <section>
           <div className={styles.historyTitle}>

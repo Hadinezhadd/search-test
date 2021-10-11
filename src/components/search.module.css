@@ -15,8 +15,8 @@ input {
   position: relative;
 }
 
-.field--focused {
-  border-color: #ccc;
+.fieldFocused {
+  border-color: #f4b05c;
 }
 
 .input {
@@ -82,8 +82,8 @@ input {
   padding: 0 7px 0 10px;
 }
 
-.suggestion--focused {
-  background: #f5f5f5;
+.suggestionFocused {
+  background: #f4b05c;
 }
 
 .suggestion:last-child {

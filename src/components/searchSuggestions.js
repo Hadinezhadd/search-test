@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import classNames from "classnames";
 import Suggestion from "./searchSuggestion";
-import styles from "./search.module.css";
 
 const Suggestions = (props) => {
   const handleMouseMove = (event, index) => {
@@ -23,8 +22,8 @@ const Suggestions = (props) => {
     return (
       <Suggestion
         className={classNames({
-          [styles.suggestion]: true,
-          [styles.suggestionFocused]: isFocused,
+          [props.styles.suggestion]: true,
+          [props.styles.suggestionFocused]: isFocused,
         })}
         index={index}
         key={index}
@@ -38,7 +37,7 @@ const Suggestions = (props) => {
   };
 
   return (
-    <ul className={styles.suggestions} onMouseLeave={handleMouseLeave}>
+    <ul className={props.styles.suggestions} onMouseLeave={handleMouseLeave}>
       {props.suggestions.map(renderSuggestion)}
     </ul>
   );

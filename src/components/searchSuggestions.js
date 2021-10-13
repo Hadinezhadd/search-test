@@ -31,7 +31,6 @@ const Suggestions = (props) => {
         onMouseMove={handleMouseMove}
         searchTerm={props.searchTerm}
         suggestion={suggestion}
-        suggestionRenderer={props.suggestionRenderer}
       />
     );
   };

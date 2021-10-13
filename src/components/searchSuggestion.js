@@ -17,7 +17,10 @@ const Suggestion = (props) => {
       onClick={handleClick}
       onMouseMove={handleMouseMove}
     >
-      {props.suggestionRenderer(props.suggestion, props.searchTerm)}
+      <span>
+        <span>{props.searchTerm}</span>
+        <strong>{props.suggestion.substr(props.searchTerm?.length)}</strong>
+      </span>
     </li>
   );
 };
@@ -28,7 +31,6 @@ Suggestion.propTypes = {
   onClick: PropTypes.func.isRequired,
   onMouseMove: PropTypes.func.isRequired,
   suggestion: PropTypes.string.isRequired,
-  suggestionRenderer: PropTypes.func.isRequired,
 };
 
 export default Suggestion;

@@ -1,157 +1,75 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import autoBind from "react-autobind";
+import React, { useState } from "react";
 import axios from "axios";
 import SearchBar from "./components/searchBar";
 import styles from "./components/search.module.css";
 import Button from "./components/deleteButton";
+import SearchHistory from "./components/searchHistory";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [history, setHistory] = useState([]);
 
-    this.state = {
-      query: "",
-      suggestions: [],
-      history: [],
-    };
-
-    autoBind(this, "handleChange", "handleClear", "handleSelection");
-  }
-
-  handleClear() {
-    this.setState({
-      suggestions: [],
-    });
-  }
-
-  getInfo = () => {
-    axios
-      .get(
-        `https://api.github.com/search/repositories?q=${this.state.query}&language=javascript`
-      )
-      .then((res) => {
-        if (res.data.items !== undefined) {
-          let result = res.data.items.map((a) => a.name);
-          this.setState({
-            suggestions: result,
-          });
-        }
-      });
+  const handleClear = () => {
+    setSuggestions([]);
   };
 
-  handleChange(input) {
-    this.setState(
-      {
-        query: input,
-      },
-      () => {
-        this.getInfo();
+  const getInfo = () => {
+    const url = `${process.env.REACT_APP_SEARCH_URL}q=${query}&language=javascript`;
+    axios.get(url).then((res) => {
+      if (res.data.items !== undefined) {
+        let result = res.data.items.map((a) => a.name);
+        setSuggestions(result);
       }
-    );
-  }
-
-  deleteSelectedHistory(item) {
-    this.setState((prevState) => ({
-      history: prevState.history.filter((e) => e !== item),
-    }));
-  }
-
-  deleteHistory() {
-    this.setState({
-      history: [],
     });
-  }
+  };
 
-  handleSelection(value) {
+  const handleChange = (input) => {
+    setQuery(input);
+    getInfo();
+  };
+
+  const deleteSelectedHistory = (item) => {
+    setHistory(history.filter((e) => e !== item));
+  };
+
+  const deleteHistory = () => {
+    setHistory([]);
+  };
+
+  const handleSelection = (value) => {
     if (value) {
-      console.info(`Selected "${value}"`);
-
-      this.setState({
-        history: [
-          ...this.state.history,
-          { value, date: new Date().toLocaleString() },
-        ],
-      });
+      setHistory([...history, { value, date: new Date().toLocaleString() }]);
     }
-  }
+  };
 
-  handleSearch(value) {
-    if (value) {
-      console.info(`Searching "${value}"`);
-    }
-  }
+  const handleSearch = (value) => {};
 
-  suggestionRenderer(suggestion, searchTerm) {
-    return (
-      <span>
-        <span>{searchTerm}</span>
-        <strong>{suggestion.substr(searchTerm?.length)}</strong>
-      </span>
-    );
-  }
-
-  render() {
-    return (
-      <main role="main">
-        <SearchBar
-          autoFocus
-          shouldRenderClearButton
-          shouldRenderSearchButton
-          placeholder="search..."
-          onChange={this.handleChange}
-          onClear={this.handleClear}
-          onSelection={this.handleSelection}
-          onSearch={this.handleSearch}
-          suggestions={this.state.suggestions}
-          suggestionRenderer={this.suggestionRenderer}
-          delay={500}
-        />
-        <section>
-          <div className={styles.historyTitle}>
-            <h1 className={styles.searchTitle}>Search history</h1>
-            <button
-              className={styles.clearTitle}
-              onClick={() => this.deleteHistory()}
-              type="reset"
-            >
-              Clear search history
-            </button>
-          </div>
-          <ul className={styles.historyItems}>
-            {this.state.history.map((item, index) => {
-              return (
-                <li key={index}>
-                  <h2 className={styles.title}>{item.value}</h2>
-                  <div className={styles.dateWrapper}>
-                    <time datetime={item.date} className={styles.date}>
-                      {item.date}
-                    </time>
-                    <button
-                      type="reset"
-                      onClick={() => this.deleteSelectedHistory(item)}
-                      className={styles.itemClearButton}
-                    >
-                      ✖
-                      <span className={styles.visuallyHidden}>
-                        Clear Search item
-                      </span>
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-        <div className={styles.buttonWrapper}>
-          <p>designed button for test</p>
-          <Button />
-        </div>
-      </main>
-    );
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById("root"));
+  return (
+    <main role="main">
+      <SearchBar
+        autoFocus
+        shouldRenderClearButton
+        shouldRenderSearchButton
+        placeholder="search..."
+        onChange={handleChange}
+        onClear={handleClear}
+        onSelection={handleSelection}
+        onSearch={handleSearch}
+        suggestions={suggestions}
+        delay={500}
+      />
+      <SearchHistory
+        history={history}
+        deleteHistory={deleteHistory}
+        deleteSelectedHistory={deleteSelectedHistory}
+      />
+      <div className={styles.buttonWrapper}>
+        <p>designed button for test</p>
+        <Button />
+      </div>
+    </main>
+  );
+};
 
 export default App;

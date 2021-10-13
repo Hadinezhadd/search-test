@@ -90,62 +90,6 @@ input {
   border: none;
 }
 
-.historyItems {
-  padding: 0;
-  margin: 0;
-}
-
-.historyItems > li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
-}
-
-.historyItems > li > .title {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.historyItems > li > .dateWrapper {
-  display: flex;
-  align-items: center;
-}
-
-.historyItems > li .date {
-  font-size: 10px;
-  font-weight: 600;
-  color: gray;
-  margin-right: 20px;
-}
-
-.historyTitle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #ccc;
-}
-
-.searchTitle {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.itemClearButton {
-  border: none;
-  background: unset;
-}
-
-.clearTitle {
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration-line: underline;
-  border: none;
-  background: unset;
-}
-
 .buttonWrapper {
   display: flex;
   margin-top: 200px;

@@ -1,62 +1,38 @@
 import PropTypes from "prop-types";
-import React from "react";
-import autoBind from "react-autobind";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import htmlElementAttributes from "react-html-attributes";
 import { debounce, isNil, pick } from "lodash";
 import Suggestions from "./searchSuggestions";
 import styles from "./search.module.css";
 
-class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
+const SearchBar = (props) => {
+  const [focusedSuggestion, setFocusedSuggestion] = useState(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(null);
+  const [value, setValue] = useState("");
+  const container = useRef();
+  const input = useRef();
+  const attributes = pick(props, htmlElementAttributes.input);
 
-    if (props.renderSearchButton && !props.onSearch) {
-      throw new Error(
-        "prop `onSearch` is required when rendering search button"
-      );
+  const handleClick = (event) => {
+    if (!container.current?.contains(event.target)) {
+      props.onClear();
     }
+  };
 
-    this.state = {
-      focusedSuggestion: null,
-      isFocused: false,
-      searchTerm: null,
-      value: "",
+  useEffect(() => {
+    if (props.autoFocus) {
+      input.current.focus();
+    }
+    console.log("effect");
+    document.addEventListener("click", handleClick);
+    return () => {
+      document.removeEventListener("click", handleClick);
     };
+  }, []);
 
-    this.attributes = pick(props, htmlElementAttributes.input);
-
-    autoBind(
-      this,
-      "clearInput",
-      "handleChange",
-      "handleClick",
-      "handleHover",
-      "handleKeyDown",
-      "handleSelection",
-      "search",
-      "toggleFocus"
-    );
-
-    this.handleDebouncedChange = debounce(
-      this.handleDebouncedChange,
-      props.delay
-    );
-  }
-
-  componentDidMount() {
-    if (this.props.autoFocus) {
-      this.input.focus();
-    }
-
-    document.addEventListener("click", this.handleClick);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleClick);
-  }
-
-  getNextIndex(current, last, isScrollingDown) {
+  const getNextIndex = (current, last, isScrollingDown) => {
     let next = null;
 
     if (isScrollingDown && current !== last) {
@@ -66,217 +42,168 @@ class SearchBar extends React.Component {
     }
 
     return next;
-  }
+  };
 
-  setFocusedSuggestion(isScrollingDown) {
-    const { focusedSuggestion: current, searchTerm } = this.state;
-    const { suggestions } = this.props;
+  const setItemSuggestion = (isScrollingDown) => {
+    const current = focusedSuggestion;
+    const { suggestions } = props;
     const last = suggestions.length - 1;
-    const next = this.getNextIndex(current, last, isScrollingDown);
+    const next = getNextIndex(current, last, isScrollingDown);
+    setFocusedSuggestion(next);
+    setValue(suggestions[next] || searchTerm);
+  };
 
-    this.setState({
-      focusedSuggestion: next,
-      value: suggestions[next] || searchTerm,
-    });
-  }
+  const clearInput = () => {
+    setFocusedSuggestion(null);
+    setSearchTerm(null);
+    setValue("");
+    input.current.focus();
+    props.onClear();
+  };
 
-  clearInput() {
-    this.setState({
-      focusedSuggestion: null,
-      searchTerm: null,
-      value: "",
-    });
+  const toggleFocus = () => {
+    setIsFocused(!isFocused);
+  };
 
-    this.input.focus();
-    this.props.onClear();
-  }
+  const handleDebouncedChange = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    props.onChange(searchTerm);
+  };
+  const handleDebouncedChangeSearch = debounce(
+    handleDebouncedChange,
+    props.delay
+  );
 
-  toggleFocus() {
-    this.setState({
-      isFocused: !this.state.isFocused,
-    });
-  }
-
-  handleClick(event) {
-    if (!this.container.contains(event.target)) {
-      this.props.onClear();
-    }
-  }
-
-  handleDebouncedChange(searchTerm) {
-    this.setState({
-      searchTerm,
-    });
-
-    this.props.onChange(searchTerm);
-  }
-
-  handleChange(event) {
+  const handleChange = (event) => {
     const { value } = event.target;
     const searchTerm = value.toLowerCase().trim();
 
     if (!value) {
-      this.clearInput();
+      clearInput();
       return;
     }
 
-    this.setState({
-      focusedSuggestion: null,
-      value,
-    });
+    setFocusedSuggestion(null);
 
+    setValue(value);
     if (searchTerm) {
-      this.handleDebouncedChange(searchTerm);
+      handleDebouncedChangeSearch(searchTerm);
     }
-  }
+  };
 
-  handleKeyDown(event) {
-    switch (event.key) {
-      case "ArrowUp":
-      case "ArrowDown":
-        if (this.props.suggestions.length > 0) {
-          event.preventDefault();
-          this.setFocusedSuggestion(event.key === "ArrowDown");
-        }
-        break;
-
-      case "Backspace":
-        this.handleBackspace();
-        break;
-
-      case "Enter":
-        this.search();
-        break;
-
-      case "Escape":
-        this.handleEscape();
-        break;
+  const handleKeyDown = (event) => {
+    if (
+      (event.key === "ArrowUp" || event.key === "ArrowDown") &&
+      props.suggestions.length > 0
+    ) {
+      event.preventDefault();
+      setItemSuggestion(event.key === "ArrowDown");
     }
-  }
-
-  handleBackspace() {
-    this.setState({
-      focusedSuggestion: null,
-    });
-  }
-
-  handleEscape() {
-    this.setState({
-      focusedSuggestion: null,
-      searchTerm: "",
-    });
-
-    this.input.blur();
-    this.props.onClear();
-  }
-
-  handleHover(current) {
-    this.setState({
-      focusedSuggestion: current,
-    });
-  }
-
-  handleSelection(suggestion) {
-    this.setState({
-      focusedSuggestion: null,
-      value: suggestion,
-    });
-
-    this.props.onClear();
-
-    if (this.props.onSelection) {
-      this.props.onSelection(suggestion);
+    if (event.key === "Backspace") {
+      handleBackspace();
     }
-  }
+    if (event.key === "Enter") {
+      search();
+    }
+    if (event.key === "Escape") {
+      handleEscape();
+    }
+  };
 
-  search() {
-    this.props.onClear();
-    this.props.onSearch(this.state.value.trim());
-  }
+  const handleBackspace = () => {
+    setFocusedSuggestion(null);
+  };
 
-  renderClearButton() {
+  const handleEscape = () => {
+    setFocusedSuggestion(null);
+    setSearchTerm("");
+    input.current.blur();
+    props.onClear();
+  };
+
+  const handleHover = (current) => {
+    setFocusedSuggestion(current);
+  };
+
+  const handleSelection = (suggestion) => {
+    setFocusedSuggestion(null);
+    setValue(suggestion);
+
+    props.onClear();
+
+    if (props.onSelection) {
+      props.onSelection(suggestion);
+    }
+  };
+
+  const search = () => {
+    props.onClear();
+    props.onSearch(value.trim());
+  };
+
+  const renderClearButton = () => {
     return (
-      <button
-        className={styles.clearButton}
-        onClick={this.clearInput}
-        type="reset"
-      >
+      <button className={styles.clearButton} onClick={clearInput} type="reset">
         <span className={styles.visuallyHidden}>Clear Search</span>
       </button>
     );
-  }
+  };
 
   // it doesn't do anything at this time it just for showing how should define 'search submit button' for accessibility
-  renderSearchButton() {
+  const renderSearchButton = () => {
     return (
-      <button
-        className={styles.submitButton}
-        onClick={this.search}
-        type="submit"
-      >
+      <button className={styles.submitButton} onClick={search} type="submit">
         <span className={styles.visuallyHidden}>Submit Search</span>
       </button>
     );
-  }
+  };
 
-  renderSuggestions(searchTerm, styles) {
+  const renderSuggestions = (searchTerm, styles) => {
     return (
       <Suggestions
-        focusedSuggestion={this.state.focusedSuggestion}
-        onSelection={this.handleSelection}
-        onSuggestionHover={this.handleHover}
+        focusedSuggestion={focusedSuggestion}
+        onSelection={handleSelection}
+        onSuggestionHover={handleHover}
         searchTerm={searchTerm}
         styles={styles}
-        suggestions={this.props.suggestions}
-        suggestionRenderer={this.props.suggestionRenderer}
+        suggestions={props.suggestions}
       />
     );
-  }
+  };
 
-  render() {
-    const { props, state } = this;
-    const { shouldRenderSearchButton } = props;
-
-    const shouldRenderClearButton =
-      state.value && props.shouldRenderClearButton;
-    const shouldRenderSuggestions = state.value && props.suggestions.length > 0;
-    return (
-      <form
-        role="search"
-        className={styles.wrapper}
-        ref={(ref) => (this.container = ref)}
+  const shouldRenderClearButton = value && props.shouldRenderClearButton;
+  const shouldRenderSuggestions = value && props.suggestions.length > 0;
+  return (
+    <form role="search" className={styles.wrapper} ref={container}>
+      <label htmlFor="header-search">
+        <span className={styles.visuallyHidden}>Search</span>
+      </label>
+      <div
+        className={classNames({
+          [styles.field]: true,
+          [styles.fieldFocused]: isFocused,
+          [styles.hasSuggestions]: props.suggestions.length > 0,
+        })}
       >
-        <label for="header-search">
-          <span className={styles.visuallyHidden}>Search</span>
-        </label>
-        <div
-          className={classNames({
-            [styles.field]: true,
-            [styles.fieldFocused]: state.isFocused,
-            [styles.hasSuggestions]: props.suggestions.length > 0,
-          })}
-        >
-          <input
-            {...this.attributes}
-            className={styles.input}
-            id="header-search"
-            type="text"
-            ref={(ref) => (this.input = ref)}
-            value={state.value}
-            onChange={this.handleChange}
-            onFocus={this.toggleFocus}
-            onBlur={this.toggleFocus}
-            onKeyDown={props.suggestions && this.handleKeyDown}
-          />
-          {shouldRenderClearButton && this.renderClearButton()}
-          {shouldRenderSearchButton && this.renderSearchButton()}
-        </div>
-        {shouldRenderSuggestions &&
-          this.renderSuggestions(state.searchTerm, styles)}
-      </form>
-    );
-  }
-}
+        <input
+          {...attributes}
+          className={styles.input}
+          id="header-search"
+          type="text"
+          ref={input}
+          value={value}
+          onChange={handleChange}
+          onFocus={toggleFocus}
+          onBlur={toggleFocus}
+          onKeyDown={props.suggestions && handleKeyDown}
+        />
+        {shouldRenderClearButton && renderClearButton()}
+        {props.shouldRenderSearchButton && renderSearchButton()}
+      </div>
+      {shouldRenderSuggestions && renderSuggestions(searchTerm, styles)}
+    </form>
+  );
+};
 
 SearchBar.propTypes = {
   autoFocus: PropTypes.bool,
@@ -288,20 +215,15 @@ SearchBar.propTypes = {
   shouldRenderClearButton: PropTypes.bool,
   shouldRenderSearchButton: PropTypes.bool,
   suggestions: PropTypes.array.isRequired,
-  suggestionRenderer: PropTypes.func,
 };
 
 SearchBar.defaultProps = {
-  autoCapitalize: "off",
-  autoComplete: "off",
-  autoCorrect: "off",
   autoFocus: false,
   delay: 0,
   maxLength: 100,
   placeholder: "",
   shouldRenderClearButton: false,
   shouldRenderSearchButton: false,
-  suggestionRenderer: (suggestion) => <div>{suggestion}</div>,
 };
 
 export default SearchBar;

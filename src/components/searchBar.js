@@ -4,7 +4,7 @@ import classNames from "classnames";
 import htmlElementAttributes from "react-html-attributes";
 import { debounce, isNil, pick } from "lodash";
 import Suggestions from "./searchSuggestions";
-import styles from "./search.module.css";
+import styles from "./search.module.scss";
 
 const SearchBar = (props) => {
   const [focusedSuggestion, setFocusedSuggestion] = useState(null);
@@ -103,6 +103,7 @@ const SearchBar = (props) => {
       handleBackspace();
     }
     if (event.key === "Enter") {
+      event.preventDefault();
       search();
     }
     if (event.key === "Escape") {
@@ -152,7 +153,7 @@ const SearchBar = (props) => {
   // it doesn't do anything at this time it just for showing how should define 'search submit button' for accessibility
   const renderSearchButton = () => {
     return (
-      <button className={styles.submitButton} onClick={search} type="submit">
+      <button className={styles.submitButton} onClick={search} type="button">
         <span className={styles.visuallyHidden}>Submit Search</span>
       </button>
     );

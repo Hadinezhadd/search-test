@@ -1,0 +1,26 @@
+.button {
+  display: inline-flex;
+  color: black;
+  font-family: "Helvetica", "Arial", sans-serif;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  height: 50px;
+  background: linear-gradient(to left, #f1983c, #f4b05c);
+  font-size: 14px;
+  font-weight: 900;
+  &:after {
+    display: inline-flex;
+    justify-content: center;
+    font-family: "Helvetica", "Arial", sans-serif;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 100%;
+    margin-left: 5px;
+    font-size: 17px;
+    font-weight: 900;
+    content: "✖";
+  }
+}

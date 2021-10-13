@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styles from "./styles.scss";
+import styles from "./styles.module.scss";
 
 const SearchHistory = (props) => {
-  console.log(styles);
   return (
     <section>
       <div className={styles.historyTitle}>

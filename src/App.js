@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import SearchBar from "./components/searchBar";
-import styles from "./components/search.module.css";
+import styles from "./components/search.module.scss";
 import Button from "./components/deleteButton";
 import SearchHistory from "./components/searchHistory";
 

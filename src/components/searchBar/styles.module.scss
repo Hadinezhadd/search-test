@@ -1,0 +1,27 @@
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.field {
+  border: 1px solid #ddd;
+  display: flex;
+  position: relative;
+}
+
+.fieldFocused {
+  border-color: #f4b05c;
+}
+
+.input {
+  border: 30px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 0 10px 10px;
+  width: 100%;
+}

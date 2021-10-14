@@ -1,21 +1,20 @@
+import classNames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
+import { handleClick, handleMouseMove } from "./methods";
+import styles from "./styles.module.scss";
 
 const Suggestion = (props) => {
-  const handleClick = () => {
-    props.onClick(props.suggestion);
-  };
-
-  const handleMouseMove = (event) => {
-    props.onMouseMove(event, props.index);
-  };
-
+  const isFocused = props.focusedSuggestion === props.index;
   return (
     <li
-      className={props.className}
+      className={classNames({
+        [styles.suggestion]: true,
+        [styles.suggestionFocused]: isFocused,
+      })}
       key={props.suggestion}
-      onClick={handleClick}
-      onMouseMove={handleMouseMove}
+      onClick={() => handleClick(props)}
+      onMouseMove={(event) => handleMouseMove({ event, props })}
     >
       <span>
         <span>{props.searchTerm}</span>

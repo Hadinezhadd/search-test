@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import SearchBar from "./components/searchBar";
-import styles from "./components/search.module.scss";
+import styles from "./App.module.scss";
 import Button from "./components/deleteButton";
 import SearchHistory from "./components/searchHistory";
+import endpoints from "./constants/endpoints";
 
 const App = () => {
   const [query, setQuery] = useState("");
@@ -15,7 +16,7 @@ const App = () => {
   };
 
   const getInfo = () => {
-    const url = `${process.env.REACT_APP_SEARCH_URL}q=${query}&language=javascript`;
+    const url = endpoints.SEARCH.GET_SEARCH_SERVICE(query);
     axios.get(url).then((res) => {
       if (res.data.items !== undefined) {
         let result = res.data.items.map((a) => a.name);

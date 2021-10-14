@@ -1,42 +1,29 @@
 import PropTypes from "prop-types";
 import React from "react";
-import classNames from "classnames";
-import Suggestion from "./searchSuggestion";
+import Suggestion from "../searchSuggestion";
+import { handleMouseMove, handleMouseLeave } from "./methods";
+import styles from "./styles.module.scss";
 
 const Suggestions = (props) => {
-  const handleMouseMove = (event, index) => {
-    const { movementX, movementY } = event.nativeEvent;
-
-    if (movementX || movementY) {
-      props.onSuggestionHover(index);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    props.onSuggestionHover(null);
-  };
-
   const renderSuggestion = (suggestion, index) => {
-    const isFocused = props.focusedSuggestion === index;
-
     return (
       <Suggestion
-        className={classNames({
-          [props.styles.suggestion]: true,
-          [props.styles.suggestionFocused]: isFocused,
-        })}
         index={index}
         key={index}
         onClick={props.onSelection}
-        onMouseMove={handleMouseMove}
+        onMouseMove={(event) => handleMouseMove({ event, index, props })}
         searchTerm={props.searchTerm}
         suggestion={suggestion}
+        focusedSuggestion={props.focusedSuggestion}
       />
     );
   };
 
   return (
-    <ul className={props.styles.suggestions} onMouseLeave={handleMouseLeave}>
+    <ul
+      className={styles.suggestions}
+      onMouseLeave={() => handleMouseLeave(props)}
+    >
       {props.suggestions.map(renderSuggestion)}
     </ul>
   );

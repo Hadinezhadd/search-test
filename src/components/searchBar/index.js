@@ -7,7 +7,7 @@ import Suggestions from "../searchSuggestions";
 import styles from "./styles.module.scss";
 import ClearButton from "../clearButton";
 import SearchButton from "../searchButton";
-import {handleClick,clearInput,search,handleSelection,handleHover,handleChange,toggleFocus,handleKeyDown,} 
+import {handleClick,clearInput,search,handleSelection,handleHover,handleChange,toggleFocus,handleKeyDown} 
 from "./methods";
 
 const SearchBar = (props) => {
@@ -56,10 +56,8 @@ const SearchBar = (props) => {
           onKeyDown={props.suggestions &&((event) => handleKeyDown({event,props,setFocusedSuggestion,setSearchTerm,input}))}
         />
         {shouldRenderClearButton && (
-          <ClearButton onClick={() => clearInput({setFocusedSuggestion,setSearchTerm,setValue,input,props,})} />
-        )}
-        {props.shouldRenderSearchButton && (<SearchButton onClick={() => search({ props, value })} />
-        )}
+          <ClearButton onClick={() => clearInput({setFocusedSuggestion,setSearchTerm,setValue,input,props,})} />) }
+        {props.shouldRenderSearchButton && (<SearchButton onClick={() => search({ props, value })} />) }
       </div>
       {shouldRenderSuggestions && (
         <Suggestions

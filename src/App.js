@@ -3,6 +3,7 @@ import axios from "axios";
 import SearchBar from "./components/searchBar";
 import styles from "./App.module.scss";
 import Button from "./components/deleteButton";
+import { debounce } from "lodash";
 import SearchHistory from "./components/searchHistory";
 import endpoints from "./constants/endpoints";
 
@@ -15,6 +16,7 @@ const App = () => {
     setSuggestions([]);
   };
 
+  //get data from the api
   const getInfo = () => {
     const url = endpoints.SEARCH.GET_SEARCH_SERVICE(query);
     axios.get(url).then((res) => {
@@ -24,27 +26,30 @@ const App = () => {
       }
     });
   };
+  const debounceHandleChange = debounce(() => handleChange(), 500);
 
+  //handle changes on iput and send request for search
   const handleChange = (input) => {
     setQuery(input);
     getInfo();
   };
 
+  //delete given item from history list
   const deleteSelectedHistory = (item) => {
     setHistory(history.filter((e) => e !== item));
   };
 
+  //delete all items from history
   const deleteHistory = () => {
     setHistory([]);
   };
 
+  //add a selected item to history
   const handleSelection = (value) => {
     if (value) {
       setHistory([...history, { value, date: new Date().toLocaleString() }]);
     }
   };
-
-
 
   return (
     <main role="main">
@@ -53,7 +58,7 @@ const App = () => {
         shouldRenderClearButton
         shouldRenderSearchButton
         placeholder="search..."
-        onChange={handleChange}
+        onChange={debounceHandleChange}
         onClear={handleClear}
         onSelection={handleSelection}
         suggestions={suggestions}

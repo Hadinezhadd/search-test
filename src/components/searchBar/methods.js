@@ -76,7 +76,7 @@ export const handleKeyDown = ({
   }
   if (event.key === "Enter") {
     event.preventDefault();
-    search();
+    search({ props, focusedSuggestion });
   }
   if (event.key === "Escape") {
     handleEscape({ setFocusedSuggestion, setSearchTerm, input, props });
@@ -103,6 +103,7 @@ export const handleSelection = ({
   }
 };
 
-export const search = ({ props }) => {
+export const search = ({ props, focusedSuggestion }) => {
+  props.onSelection(props.suggestions[focusedSuggestion]);
   props.onClear();
 };

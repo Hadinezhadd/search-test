@@ -1,11 +1,14 @@
+@import-normalize;
+@import "../../constants/theme/variables.scss";
+
 body {
-  font: 100% sans-serif;
+  font-family: $font-family;
   margin: 15px;
-  background-color: #ddd;
+  background-color: $color-gray-light;
 }
 
 input {
-  font-size: 20px;
+  font-size: $font-size-h1;
   outline: 0;
 }
 

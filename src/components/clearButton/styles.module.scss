@@ -1,5 +1,7 @@
+@import "../../constants/theme/variables.scss";
+
 .clearButton {
-  background: #fff;
+  background: $color-white-base;
   background-image: url(./icons/clear.svg);
   background-size: 30%;
   right: 0;
@@ -11,14 +13,4 @@
   outline: 0;
   padding: 0;
   width: 40px;
-}
-
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
 }

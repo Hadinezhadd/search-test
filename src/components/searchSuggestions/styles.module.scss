@@ -1,6 +1,8 @@
+@import "../../constants/theme/variables.scss";
+
 .suggestions {
-  border: 1px solid #ccc;
-  background-color: #fff;
+  border: $divider;
+  background-color: $color-white-base;
   list-style: none;
   margin: 0;
   max-height: 240px;

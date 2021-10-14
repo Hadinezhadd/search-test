@@ -7,8 +7,16 @@ import Suggestions from "../searchSuggestions";
 import styles from "./styles.module.scss";
 import ClearButton from "../clearButton";
 import SearchButton from "../searchButton";
-import {handleClick,clearInput,search,handleSelection,handleHover,handleChange,toggleFocus,handleKeyDown} 
-from "./methods";
+import {
+  handleClick,
+  clearInput,
+  search,
+  handleSelection,
+  handleHover,
+  handleChange,
+  toggleFocus,
+  handleKeyDown,
+} from "./methods";
 
 const SearchBar = (props) => {
   const [focusedSuggestion, setFocusedSuggestion] = useState(null);
@@ -23,9 +31,13 @@ const SearchBar = (props) => {
     if (props.autoFocus) {
       input.current.focus();
     }
-    document.addEventListener("click", (event) =>handleClick({ event, props, container }));
+    document.addEventListener("click", (event) =>
+      handleClick({ event, props, container })
+    );
     return () => {
-      document.removeEventListener("click", (event) =>handleClick({ event, props, container }));
+      document.removeEventListener("click", (event) =>
+        handleClick({ event, props, container })
+      );
     };
   }, []);
 
@@ -33,7 +45,9 @@ const SearchBar = (props) => {
   const shouldRenderSuggestions = value && props.suggestions.length > 0;
   return (
     <form role="search" ref={container}>
-      <label htmlFor="header-search" className={styles.visuallyHidden}></label>
+      <label htmlFor="header-search" className={styles.visuallyHidden}>
+        Search
+      </label>
       <div
         className={classNames({
           [styles.field]: true,
@@ -89,7 +103,7 @@ const SearchBar = (props) => {
           />
         )}
         {props.shouldRenderSearchButton && (
-          <SearchButton onClick={() => search({ props, value })} />
+          <SearchButton onClick={() => search({ props, focusedSuggestion })} />
         )}
       </div>
       {shouldRenderSuggestions && (
@@ -115,21 +129,13 @@ const SearchBar = (props) => {
 };
 
 SearchBar.propTypes = {
-  autoFocus: PropTypes.bool,
+  autoFocus: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  onSearch: PropTypes.func,
-  onSelection: PropTypes.func,
-  shouldRenderClearButton: PropTypes.bool,
-  shouldRenderSearchButton: PropTypes.bool,
+  onSelection: PropTypes.func.isRequired,
+  shouldRenderClearButton: PropTypes.bool.isRequired,
+  shouldRenderSearchButton: PropTypes.bool.isRequired,
   suggestions: PropTypes.array.isRequired,
-};
-
-SearchBar.defaultProps = {
-  autoFocus: false,
-  placeholder: "",
-  shouldRenderClearButton: false,
-  shouldRenderSearchButton: false,
 };
 
 export default SearchBar;

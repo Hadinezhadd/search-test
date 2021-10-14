@@ -1,20 +1,20 @@
-@import-normalize;
+@import "../../constants/theme/variables.scss";
 .historyTitle {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: $divider;
 }
 
 .searchTitle {
-  font-size: 20px;
+  font-size: $font-size-h1;
   font-weight: 700;
 }
 
 .clearTitle {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
   text-decoration-line: underline;
   border: none;
   background: unset;
@@ -28,12 +28,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ccc;
+    border-bottom: $divider;
     padding: 10px 0;
 
     .title {
-      font-size: 16px;
-      font-weight: 600;
+      font-size: $font-size-h2;
+      font-weight: $font-weight-normal;
     }
     .dateWrapper {
       display: flex;
@@ -41,8 +41,8 @@
     }
     .date {
       font-size: 10px;
-      font-weight: 600;
-      color: gray;
+      font-weight: $font-weight-normal;
+      color: $color-gray;
       margin-right: 20px;
     }
   }
@@ -51,14 +51,4 @@
 .itemClearButton {
   border: none;
   background: unset;
-}
-
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
 }

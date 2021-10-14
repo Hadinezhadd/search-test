@@ -44,7 +44,7 @@ const App = () => {
     }
   };
 
-  const handleSearch = (value) => {};
+
 
   return (
     <main role="main">
@@ -56,7 +56,6 @@ const App = () => {
         onChange={handleChange}
         onClear={handleClear}
         onSelection={handleSelection}
-        onSearch={handleSearch}
         suggestions={suggestions}
         delay={500}
       />

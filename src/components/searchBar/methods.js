@@ -1,12 +1,10 @@
 import { setItemSuggestion, handleBackspace, handleEscape } from "./partials";
-
 //if user click outside of the search form closes the suggestion list
 export const handleClick = ({ event, props, container }) => {
   if (!container.current?.contains(event.target)) {
     props.onClear();
   }
 };
-
 export const clearInput = ({
   setFocusedSuggestion,
   setSearchTerm,
@@ -20,11 +18,9 @@ export const clearInput = ({
   input.current.focus();
   props.onClear();
 };
-
 export const toggleFocus = ({ setIsFocused, isFocused }) => {
   setIsFocused(!isFocused);
 };
-
 export const handleChange = ({
   event,
   setFocusedSuggestion,
@@ -46,7 +42,6 @@ export const handleChange = ({
     props.onChange(searchTerm);
   }
 };
-
 export const handleKeyDown = ({
   event,
   props,
@@ -82,12 +77,10 @@ export const handleKeyDown = ({
     handleEscape({ setFocusedSuggestion, setSearchTerm, input, props });
   }
 };
-
 //handle hover on an item in the suggestions list
 export const handleHover = ({ current, setFocusedSuggestion }) => {
   setFocusedSuggestion(current);
 };
-
 //when user select a item reset search and call onSelection action
 export const handleSelection = ({
   setFocusedSuggestion,
@@ -102,7 +95,6 @@ export const handleSelection = ({
     props.onSelection(suggestion);
   }
 };
-
 export const search = ({ props, focusedSuggestion }) => {
   props.onSelection(props.suggestions[focusedSuggestion]);
   props.onClear();

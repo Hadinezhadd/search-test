@@ -33,9 +33,7 @@ const SearchBar = (props) => {
   const shouldRenderSuggestions = value && props.suggestions.length > 0;
   return (
     <form role="search" ref={container}>
-      <label htmlFor="header-search">
-        <span className={styles.visuallyHidden}>Search</span>
-      </label>
+      <label htmlFor="header-search" className={styles.visuallyHidden}></label>
       <div
         className={classNames({
           [styles.field]: true,
@@ -50,20 +48,63 @@ const SearchBar = (props) => {
           type="text"
           ref={input}
           value={value}
-          onChange={(event) => handleChange({event,setFocusedSuggestion,setSearchTerm,setValue,input, props,})}
+          onChange={(event) =>
+            handleChange({
+              event,
+              setFocusedSuggestion,
+              setSearchTerm,
+              setValue,
+              input,
+              props,
+            })
+          }
           onFocus={() => toggleFocus({ setIsFocused, isFocused })}
           onBlur={() => toggleFocus({ setIsFocused, isFocused })}
-          onKeyDown={props.suggestions &&((event) => handleKeyDown({event,props,setFocusedSuggestion,setSearchTerm,input}))}
+          onKeyDown={
+            props.suggestions &&
+            ((event) =>
+              handleKeyDown({
+                event,
+                props,
+                setFocusedSuggestion,
+                setSearchTerm,
+                input,
+                focusedSuggestion,
+                setValue,
+                searchTerm,
+              }))
+          }
         />
         {shouldRenderClearButton && (
-          <ClearButton onClick={() => clearInput({setFocusedSuggestion,setSearchTerm,setValue,input,props,})} />) }
-        {props.shouldRenderSearchButton && (<SearchButton onClick={() => search({ props, value })} />) }
+          <ClearButton
+            onClick={() =>
+              clearInput({
+                setFocusedSuggestion,
+                setSearchTerm,
+                setValue,
+                input,
+                props,
+              })
+            }
+          />
+        )}
+        {props.shouldRenderSearchButton && (
+          <SearchButton onClick={() => search({ props, value })} />
+        )}
       </div>
       {shouldRenderSuggestions && (
         <Suggestions
           focusedSuggestion={focusedSuggestion}
-          onSelection={(suggestion) =>handleSelection({setFocusedSuggestion,setValue,props,suggestion})}
-          onSuggestionHover={(current) => handleHover({ current, setFocusedSuggestion })
+          onSelection={(suggestion) =>
+            handleSelection({
+              setFocusedSuggestion,
+              setValue,
+              props,
+              suggestion,
+            })
+          }
+          onSuggestionHover={(current) =>
+            handleHover({ current, setFocusedSuggestion })
           }
           searchTerm={searchTerm}
           suggestions={props.suggestions}

@@ -8,9 +8,7 @@ const ClearButton = (props) => {
       className={styles.clearButton}
       onClick={props.onClick}
       type="reset"
-    >
-      <span className={styles.visuallyHidden}>Clear Search</span>
-    </button>
+    ></button>
   );
 };
 

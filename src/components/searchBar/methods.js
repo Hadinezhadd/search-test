@@ -51,15 +51,25 @@ export const handleKeyDown = ({
   event,
   props,
   setFocusedSuggestion,
+  focusedSuggestion,
   setSearchTerm,
   input,
+  setValue,
+  searchTerm,
 }) => {
   if (
     (event.key === "ArrowUp" || event.key === "ArrowDown") &&
     props.suggestions.length > 0
   ) {
     event.preventDefault();
-    setItemSuggestion({ isScrollingDown: event.key === "ArrowDown", props });
+    setItemSuggestion({
+      isScrollingDown: event.key === "ArrowDown",
+      props,
+      focusedSuggestion,
+      setFocusedSuggestion,
+      setValue,
+      searchTerm,
+    });
   }
   if (event.key === "Backspace") {
     handleBackspace({ setFocusedSuggestion });

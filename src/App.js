@@ -8,7 +8,6 @@ import SearchHistory from "./components/searchHistory";
 import endpoints from "./constants/endpoints";
 
 const App = () => {
-  const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [history, setHistory] = useState([]);
 
@@ -17,8 +16,8 @@ const App = () => {
   };
 
   //get data from the api
-  const getInfo = () => {
-    const url = endpoints.SEARCH.GET_SEARCH_SERVICE(query);
+  const getInfo = (input) => {
+    const url = endpoints.SEARCH.GET_SEARCH_SERVICE(input);
     axios.get(url).then((res) => {
       if (res.data.items !== undefined) {
         let result = res.data.items.map((a) => a.name);
@@ -26,12 +25,11 @@ const App = () => {
       }
     });
   };
-  const debounceHandleChange = debounce(() => handleChange(), 500);
+  const debounceHandleChange = debounce((input) => handleChange(input), 500);
 
   //handle changes on iput and send request for search
   const handleChange = (input) => {
-    setQuery(input);
-    getInfo();
+    getInfo(input);
   };
 
   //delete given item from history list

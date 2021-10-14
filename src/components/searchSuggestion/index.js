@@ -17,8 +17,7 @@ const Suggestion = (props) => {
       onMouseMove={(event) => handleMouseMove({ event, props })}
     >
       <span>
-        <span>{props.searchTerm}</span>
-        <strong>{props.suggestion.substr(props.searchTerm?.length)}</strong>
+        <strong>{props.suggestion}</strong>
       </span>
     </li>
   );

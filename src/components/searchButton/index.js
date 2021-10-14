@@ -8,9 +8,7 @@ const SearchButton = (props) => {
       className={styles.submitButton}
       onClick={props.onClick}
       type="button"
-    >
-      <span className={styles.visuallyHidden}>Submit Search</span>
-    </button>
+    ></button>
   );
 };
 

@@ -30,9 +30,6 @@ const SearchHistory = (props) => {
                   className={styles.itemClearButton}
                 >
                   ✖
-                  <span className={styles.visuallyHidden}>
-                    Clear Search item
-                  </span>
                 </button>
               </div>
             </li>

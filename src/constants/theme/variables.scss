@@ -2,9 +2,11 @@
  * font
  * ======================================================================== */
 $font-family: "Helvetica", "Arial", sans-serif;
+$font-size-large: 24px;
 $font-size-h1: 20px;
 $font-size-h2: 16px;
 $font-size-base: 14px;
+$font-size-small: 10px;
 $font-weight-normal: 600;
 $font-weight-bold: 900;
 
@@ -12,7 +14,9 @@ $font-weight-bold: 900;
  * color
  * ======================================================================== */
 
-$color-gray-light: #dddddd;
+$color-blue-light: #def7ff;
+$color-blue: #61dafb;
+$color-dark: #282c34;
 $color-gray: #808080;
 $color-white-base: #ffffff;
 $color-black-base: #000000;

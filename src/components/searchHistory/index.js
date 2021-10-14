@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import Button from "../deleteButton";
 import styles from "./styles.module.scss";
 
 const SearchHistory = (props) => {
@@ -7,13 +8,12 @@ const SearchHistory = (props) => {
     <section>
       <div className={styles.historyTitle}>
         <h1 className={styles.searchTitle}>Search history</h1>
-        <button
+        <Button
           className={styles.clearTitle}
           onClick={() => props.deleteHistory()}
           type="reset"
-        >
-          Clear search history
-        </button>
+          title="Clear search history"
+        />
       </div>
       <ul className={styles.historyItems}>
         {props.history.map((item, index) => {

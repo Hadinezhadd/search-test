@@ -1,11 +1,7 @@
 @import-normalize;
 @import "../../constants/theme/variables.scss";
+@import "../../constants/theme/reset.scss";
 
-body {
-  font-family: $font-family;
-  background-color: $color-blue-light;
-  margin: 0;
-}
 main {
   margin: 15px;
 }

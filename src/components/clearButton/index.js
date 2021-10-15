@@ -8,7 +8,7 @@ const ClearButton = (props) => {
       className={styles.clearButton}
       onClick={props.onClick}
       type="reset"
-      title="Clear Search"
+      aria-label="Clear Search"
     ></button>
   );
 };

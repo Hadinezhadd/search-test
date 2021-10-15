@@ -7,6 +7,7 @@ const Button = (props) => {
       className={styles.button}
       onClick={() => props.onClick()}
       type="reset"
+      aria-label={props.title}
     >
       {props.title}
     </button>

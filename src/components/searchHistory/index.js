@@ -27,6 +27,7 @@ const SearchHistory = (props) => {
                 <button
                   type="reset"
                   aria-label="Delete Item"
+                  title="Delete Item"
                   onClick={() => props.deleteSelectedHistory(item)}
                   className={styles.itemClearButton}
                 >

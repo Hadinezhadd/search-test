@@ -7,7 +7,7 @@ const SearchHistory = (props) => {
   return (
     <section>
       <div className={styles.historyTitle}>
-        <h1 className={styles.searchTitle}>Search history</h1>
+        <h2 className={styles.searchTitle}>Search history</h2>
         <Button
           className={styles.clearTitle}
           onClick={() => props.deleteHistory()}
@@ -19,7 +19,7 @@ const SearchHistory = (props) => {
         {props.history.map((item, index) => {
           return (
             <li key={index}>
-              <h2 className={styles.title}>{item.value}</h2>
+              <h3 className={styles.title}>{item.value}</h3>
               <div className={styles.dateWrapper}>
                 <time dateTime={item.date} className={styles.date}>
                   {item.date}

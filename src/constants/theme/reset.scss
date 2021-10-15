@@ -10,6 +10,12 @@ body {
   font-family: $font-family;
   background-color: $color-blue-light;
 }
+h1,
+h3,
+h4 {
+  margin: 0;
+  font-size: 100%;
+}
 
 /* HTML5 display-role reset for older browsers */
 

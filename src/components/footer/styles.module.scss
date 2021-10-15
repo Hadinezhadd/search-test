@@ -1,0 +1,10 @@
+@import "../../constants/theme/variables.scss";
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: $color-blue;
+  background-color: $color-dark;
+  font-weight: bold;
+  font-size: $font-size-small;
+  margin-top: auto;
+}

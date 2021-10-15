@@ -1,0 +1,26 @@
+@import "../../constants/theme/variables.scss";
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.field {
+  border: 1px solid $color-blue-light;
+  display: flex;
+  position: relative;
+}
+
+.fieldFocused {
+  border-color: $color-orange-light;
+}
+
+.input {
+  border: 30px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 0 10px 10px;
+  width: 100%;
+}

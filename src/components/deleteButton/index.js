@@ -1,10 +1,15 @@
 import React from "react";
-import styles from "./deleteButton.module.css";
+import styles from "./styles.module.scss";
 
-const Button = () => {
+const Button = (props) => {
   return (
-    <button className={styles.button} type="button">
-      Delete
+    <button
+      className={styles.button}
+      onClick={() => props.onClick()}
+      type="reset"
+      aria-label={props.title}
+    >
+      {props.title}
     </button>
   );
 };

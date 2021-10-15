@@ -1,0 +1,16 @@
+@import "../../constants/theme/variables.scss";
+
+.clearButton {
+  background: $color-white-base;
+  background-image: url(./icons/clear.svg);
+  background-size: 30%;
+  right: 0;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 0;
+  cursor: pointer;
+  font-size: 0;
+  outline: 0;
+  padding: 0;
+  width: 40px;
+}

@@ -9,6 +9,7 @@ const SearchButton = (props) => {
       onClick={props.onClick}
       type="button"
       aria-label="Submit Search"
+      title="Submit Search"
     ></button>
   );
 };

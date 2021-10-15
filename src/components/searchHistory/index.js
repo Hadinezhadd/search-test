@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Button from "../deleteButton";
+import Button from "../DeleteButton";
 import styles from "./styles.module.scss";
 
 const SearchHistory = (props) => {

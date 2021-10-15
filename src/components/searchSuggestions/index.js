@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Suggestion from "../searchSuggestion";
+import Suggestion from "../SearchSuggestion";
 import { handleMouseMove, handleMouseLeave } from "./methods";
 import styles from "./styles.module.scss";
 

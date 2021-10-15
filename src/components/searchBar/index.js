@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import htmlElementAttributes from "react-html-attributes";
 import { pick } from "lodash";
-import Suggestions from "../searchSuggestions";
+import Suggestions from "../SearchSuggestions";
 import styles from "./styles.module.scss";
-import ClearButton from "../clearButton";
-import SearchButton from "../searchButton";
+import ClearButton from "../ClearButton";
+import SearchButton from "../SearchButton";
 import {
   handleClick,
   clearInput,

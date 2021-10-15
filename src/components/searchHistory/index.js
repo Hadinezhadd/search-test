@@ -26,6 +26,7 @@ const SearchHistory = (props) => {
                 </time>
                 <button
                   type="reset"
+                  title="Delete Item"
                   onClick={() => props.deleteSelectedHistory(item)}
                   className={styles.itemClearButton}
                 >

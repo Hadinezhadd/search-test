@@ -98,4 +98,5 @@ export const handleSelection = ({
 export const search = ({ props, focusedSuggestion }) => {
   props.onSelection(props.suggestions[focusedSuggestion]);
   props.onClear();
+  props.onSearch();
 };

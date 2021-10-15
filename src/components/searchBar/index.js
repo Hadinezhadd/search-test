@@ -133,9 +133,14 @@ SearchBar.propTypes = {
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onSelection: PropTypes.func.isRequired,
+  onSearch: PropTypes.func,
   shouldRenderClearButton: PropTypes.bool.isRequired,
   shouldRenderSearchButton: PropTypes.bool.isRequired,
   suggestions: PropTypes.array.isRequired,
+};
+
+SearchBar.defaultProps = {
+  onSearch: () => {},
 };
 
 export default SearchBar;

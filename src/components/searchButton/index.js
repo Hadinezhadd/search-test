@@ -8,6 +8,7 @@ const SearchButton = (props) => {
       className={styles.submitButton}
       onClick={props.onClick}
       type="button"
+      title="Submit Search"
     ></button>
   );
 };

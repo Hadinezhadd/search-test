@@ -16,9 +16,7 @@ const Suggestion = (props) => {
       onClick={() => handleClick(props)}
       onMouseMove={(event) => handleMouseMove({ event, props })}
     >
-      <span>
-        <strong>{props.suggestion}</strong>
-      </span>
+      <strong>{props.suggestion}</strong>
     </li>
   );
 };

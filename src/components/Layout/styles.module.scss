@@ -2,6 +2,12 @@
 @import "../../constants/theme/variables.scss";
 @import "../../constants/theme/reset.scss";
 
+body > div {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 main {
   margin: 15px;
 }

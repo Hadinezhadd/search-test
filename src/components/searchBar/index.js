@@ -7,16 +7,8 @@ import Suggestions from "../SearchSuggestions";
 import styles from "./styles.module.scss";
 import ClearButton from "../ClearButton";
 import SearchButton from "../SearchButton";
-import {
-  handleClick,
-  clearInput,
-  search,
-  handleSelection,
-  handleHover,
-  handleChange,
-  toggleFocus,
-  handleKeyDown,
-} from "./methods";
+import { handleClick, clearInput, search, handleSelection,
+  handleHover, handleChange, toggleFocus, handleKeyDown } from "./methods";
 
 const SearchBar = (props) => {
   const [focusedSuggestion, setFocusedSuggestion] = useState(null);
@@ -31,13 +23,9 @@ const SearchBar = (props) => {
     if (props.autoFocus) {
       input.current.focus();
     }
-    document.addEventListener("click", (event) =>
-      handleClick({ event, props, container })
-    );
+    document.addEventListener("click", (event) => handleClick({ event, props, container }));
     return () => {
-      document.removeEventListener("click", (event) =>
-        handleClick({ event, props, container })
-      );
+    document.removeEventListener("click", (event) => handleClick({ event, props, container }));
     };
   }, []);
 
@@ -49,12 +37,8 @@ const SearchBar = (props) => {
         Search
       </label>
       <div
-        className={classNames({
-          [styles.field]: true,
-          [styles.fieldFocused]: isFocused,
-          [styles.hasSuggestions]: props.suggestions.length > 0,
-        })}
-      >
+        className={classNames({ [styles.field]: true, [styles.fieldFocused]: isFocused,
+          [styles.hasSuggestions]: props.suggestions.length > 0 })}>
         <input
           {...attributes}
           className={styles.input}
@@ -62,64 +46,25 @@ const SearchBar = (props) => {
           type="text"
           ref={input}
           value={value}
-          onChange={(event) =>
-            handleChange({
-              event,
-              setFocusedSuggestion,
-              setSearchTerm,
-              setValue,
-              input,
-              props,
-            })
-          }
+          onChange={(event) => handleChange({ event, setFocusedSuggestion, setSearchTerm, setValue, input, props })}
           onFocus={() => toggleFocus({ setIsFocused, isFocused })}
           onBlur={() => toggleFocus({ setIsFocused, isFocused })}
-          onKeyDown={
-            props.suggestions &&
-            ((event) =>
-              handleKeyDown({
-                event,
-                props,
-                setFocusedSuggestion,
-                setSearchTerm,
-                input,
-                focusedSuggestion,
-                setValue,
-                searchTerm,
-              }))
-          }
-        />
+          onKeyDown={ props.suggestions &&
+            ((event) => handleKeyDown(
+              { event, props, setFocusedSuggestion, setSearchTerm, input, focusedSuggestion, setValue, searchTerm }
+            )) }
+         />
         {shouldRenderClearButton && (
-          <ClearButton
-            onClick={() =>
-              clearInput({
-                setFocusedSuggestion,
-                setSearchTerm,
-                setValue,
-                input,
-                props,
-              })
-            }
-          />
+          <ClearButton onClick={() => clearInput({ setFocusedSuggestion, setSearchTerm, setValue, input, props })} /> 
         )}
-        {props.shouldRenderSearchButton && (
-          <SearchButton onClick={() => search({ props, focusedSuggestion })} />
-        )}
+        {props.shouldRenderSearchButton && ( <SearchButton onClick={() => search({ props, focusedSuggestion })} />)}
       </div>
       {shouldRenderSuggestions && (
         <Suggestions
           focusedSuggestion={focusedSuggestion}
           onSelection={(suggestion) =>
-            handleSelection({
-              setFocusedSuggestion,
-              setValue,
-              props,
-              suggestion,
-            })
-          }
-          onSuggestionHover={(current) =>
-            handleHover({ current, setFocusedSuggestion })
-          }
+            handleSelection({ setFocusedSuggestion, setValue, props, suggestion })}
+          onSuggestionHover={(current) =>handleHover({ current, setFocusedSuggestion })}
           searchTerm={searchTerm}
           suggestions={props.suggestions}
         />
@@ -138,9 +83,7 @@ SearchBar.propTypes = {
   shouldRenderSearchButton: PropTypes.bool.isRequired,
   suggestions: PropTypes.array.isRequired,
 };
-
 SearchBar.defaultProps = {
   onSearch: () => {},
 };
-
 export default SearchBar;

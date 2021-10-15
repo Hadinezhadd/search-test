@@ -52,10 +52,7 @@ export const handleKeyDown = ({
   setValue,
   searchTerm,
 }) => {
-  if (
-    (event.key === "ArrowUp" || event.key === "ArrowDown") &&
-    props.suggestions.length > 0
-  ) {
+  if ((event.key === "ArrowUp" || event.key === "ArrowDown") && props.suggestions.length > 0) {
     event.preventDefault();
     setItemSuggestion({
       isScrollingDown: event.key === "ArrowDown",
